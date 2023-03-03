@@ -4,48 +4,49 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float jumpForce = 10f; // The force applied to make the player jump
+    private float speed = 10.0f;
     private Rigidbody playerRb;
+
     public float xRange = 10.0f;
+    public float jumpForce = 10.0f;
     public float gravityModifier;
 
-    public float jumpforce = 10.0f;
-    public int maxJumps = 50; // The maximum number of jumps the player can perform
-    private int jumpCount = 0; // The number of jumps the player has performed
-
-
-    private Rigidbody rb; // The Rigidbody component of the player
+    public bool isOnGround = true;
+    public bool gameOver;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         playerRb = GetComponent<Rigidbody>();
+        gameOver = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver)
         {
-            Jump();
+            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
         }
+
         if (transform.position.x < -xRange)
-        { transform.position = new Vector3(-xRange, transform.position.y, transform.position.z); }
-        if (transform.position.x < xRange)
-        { transform.position = new Vector3(xRange, transform.position.y, transform.position.z); }
+        {
+            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x > xRange)
+        {
+            transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+        }
+
+
+        float horizontalInput = Input.GetAxis("Horizontal");
+        playerRb.AddForce(Vector3.right * speed * horizontalInput);
     }
 
-    private void Jump()
-    {
-        rb.velocity = new Vector3(rb.velocity.x, jumpForce);
-        jumpCount++;
-    }
-
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            jumpCount = 0;
+            isOnGround = true;
         }
     }
 }
-
