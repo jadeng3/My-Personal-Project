@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 1.0f;
+
+    private float xDestroy = -10.0f;
     private Rigidbody objectRb;
 
     // Start is called before the first frame update
@@ -16,6 +18,13 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        objectRb.AddForce(Vector3.forward * speed); 
+        objectRb.AddForce(Vector3.right * -speed);
+
+        if (transform.position.x < xDestroy)
+        {
+            Destroy(gameObject);
+        }
+
+      
     }
 }
