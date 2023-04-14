@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DestroyOutOfBounds : MonoBehaviour
+{
+    private float rightBound = 30;
+    private float leftBound = -10;
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // If an object goes past the players view in the game, remove that object
+        if (transform.position.z > rightBound)
+        {
+            Destroy(gameObject);
+        }
+        else if (transform.position.z < leftBound)
+        {
+            Debug.Log("Game Over!");
+            Destroy(gameObject);
+        }
+    }
+}

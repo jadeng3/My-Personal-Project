@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
 
     public float xRange = 10.0f;
+    public float zRange = 1.0f;
     public float jumpForce = 10.0f;
     public float gravityModifier;
 
@@ -35,6 +36,14 @@ public class PlayerController : MonoBehaviour
         if (transform.position.x > xRange)
         {
             transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+        }
+        if (transform.position.z < -zRange)
+        {
+            transform.position = new Vector3(-zRange, transform.position.y, transform.position.x);
+        }
+        if (transform.position.z > zRange)
+        {
+            transform.position = new Vector3(zRange, transform.position.y, transform.position.x);
         }
 
 
